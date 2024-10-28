@@ -1,0 +1,41 @@
+# Ignore CMake build files
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+
+# Ignore Qt Creator specific files
+*.pro.user
+*.qbs.user
+*.user
+
+# Ignore build output directories
+bin/
+build/
+Debug/
+Release/
+
+# Ignore Clion and JetBrains specific files
+.idea/
+*.iml
+out/
+
+# Ignore MacOS and Windows generated files
+.DS_Store
+Thumbs.db
+
+# Ignore compiler generated files
+*.o
+*.obj
+*.so
+*.a
+*.exe
+
+# Ignore log and temporary files
+*.log
+*.tmp
+
+# Ignore system-specific hidden files
+*.swp
+*.swo
+*.swn
+*~
