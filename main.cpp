@@ -36,7 +36,7 @@ int main() {
     }
 
     cout << "\n\nTesting Remove Method:\n";
-    list.Remove(four);  // Pass shared_ptr<int> instead of raw pointer
+    list.Remove(four);
     cout << "Expected List after Removing '4': 1 -> 3\n";
 
     node = list.GetFirst();
@@ -46,7 +46,7 @@ int main() {
     }
 
     cout << "\n\nTesting Remove Method with non-existing element:\n";
-    list.Remove(five);  // Pass shared_ptr<int> instead of raw pointer
+    list.Remove(five);
     cout << "Expected List after attempting to Remove '5': 1 -> 3\n";
 
     node = list.GetFirst();
