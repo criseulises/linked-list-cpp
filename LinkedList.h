@@ -1,90 +1,88 @@
-//
-// Created by scris on 10/27/2024.
-//
+#pragma once
 
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
 #include <iostream>
-using namespace std;
+#include <memory>
 
-template<typename ListElement>
+template<class ListElement>
 struct Node {
-    ListElement *data;
-    Node *next;
+    std::shared_ptr<ListElement> data;
+    std::shared_ptr<Node<ListElement> > next;
 
     Node() : data(nullptr), next(nullptr) {
-    };
+    }
 };
 
 template<typename ListElement>
 class LinkedList {
 private:
-    Node<ListElement> *_head;
-    int _size = 0;
+    std::shared_ptr<Node<ListElement> > _head;
+    int _size = 1;
 
 public:
-    LinkedList() {
-        _head = nullptr;
+    LinkedList() : _head(nullptr), _size(1) {
     }
 
-    void Insert(ListElement &value) {
-        Node<ListElement> *newNode = new Node<ListElement>;
-        newNode->data = &value;
+    void Insert(const std::shared_ptr<ListElement> &value) {
+        auto newNode = std::make_shared<Node<ListElement> >();
+        newNode->data = value;
         newNode->next = nullptr;
 
         if (_head == nullptr) {
             _head = newNode;
         } else {
-            Node<ListElement> *current = _head;
+            auto current = _head;
             while (current->next != nullptr) {
                 current = current->next;
             }
             current->next = newNode;
         }
-
         _size++;
     }
 
-    void Remove(ListElement *value) {
-        if (_head == nullptr) return;
+    void Remove(const std::shared_ptr<ListElement> &value) {
+        if (!_head) return;
+
         if (_head->data == value) {
-            _head->data = _head->next == nullptr ? nullptr : _head->next->data;
-            _head->next = _head->next == nullptr ? nullptr : _head->next->next;
+            _head = _head->next;
+            _size--;
+            std::cout << "Removed element" << std::endl;
             return;
         }
-        Node<ListElement> *current = _head;
-        while (current->next != nullptr && current->next->data != value) {
+
+        auto current = _head;
+        while (current->next && current->next->data != value) {
             current = current->next;
         }
 
-        if (current->next != nullptr && current->next->data == value) {
-            Node<ListElement> *temp = current->next;
-            current->next = temp->next;
-            delete temp;
+        if (current->next && current->next->data == value) {
+            current->next = current->next->next;
             _size--;
-            cout << "Removed element " << endl;
+            std::cout << "Removed element" << std::endl;
         } else {
-            cout << "Element not found" << endl;
+            std::cout << "Element not found" << std::endl;
         }
     }
 
-    void Edit(int position, ListElement *value) {
-        Node<ListElement> *current = _head;
-        for (int i = 0; i < position; i++) {
+    void Edit(int position, const std::shared_ptr<ListElement> &value) {
+        if (position < 1 || position >= _size) {
+            std::cout << "Position out of bounds" << std::endl;
+            return;
+        }
+
+        auto current = _head;
+        for (int i = 1; i < position; ++i) {
             current = current->next;
         }
+
         current->data = value;
-        cout << "Element at index " << position << " updated to " << *value << endl;
+        std::cout << "Element at index " << position << " updated." << std::endl;
     }
 
-    int GetSize() {
+    int GetSize() const {
         return _size;
     }
 
-    Node<ListElement> *GetFirst() {
+    std::shared_ptr<Node<ListElement> > GetFirst() const {
         return _head;
     }
 };
-
-
-#endif //LINKEDLIST_H

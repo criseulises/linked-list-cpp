@@ -1,9 +1,13 @@
 #include <iostream>
 #include "LinkedList.h"
-
+using namespace std;
 int main() {
     LinkedList<int> list;
-    int one = 1, two = 2, three = 3, four = 4, five = 5;
+    auto one = std::make_shared<int>(1);
+    auto two = std::make_shared<int>(2);
+    auto three = std::make_shared<int>(3);
+    auto four = std::make_shared<int>(4);
+    auto five = std::make_shared<int>(5);
 
     cout << "Testing Insert Method:\n";
     list.Insert(one);
@@ -11,9 +15,9 @@ int main() {
     list.Insert(three);
     cout << "Expected List: 1 -> 2 -> 3\n";
 
-    Node<int> *node = list.GetFirst();
+    auto node = list.GetFirst();
     while (node != nullptr) {
-        cout << "Element: " << *node->data << endl;
+        cout << "Element: " << *(node->data) << endl;
         node = node->next;
     }
 
@@ -22,32 +26,32 @@ int main() {
     cout << "Actual Size: " << list.GetSize() << endl;
 
     cout << "\n\nTesting Edit Method:\n";
-    list.Edit(1, &four);
+    list.Edit(1, four);
     cout << "Expected List after Edit at index 1: 1 -> 4 -> 3\n";
 
     node = list.GetFirst();
     while (node != nullptr) {
-        cout << "Element " << *node->data << endl;
+        cout << "Element: " << *(node->data) << endl;
         node = node->next;
     }
 
     cout << "\n\nTesting Remove Method:\n";
-    list.Remove(&four);
+    list.Remove(four);  // Pass shared_ptr<int> instead of raw pointer
     cout << "Expected List after Removing '4': 1 -> 3\n";
 
     node = list.GetFirst();
     while (node != nullptr) {
-        cout << "Element: " << *node->data << endl;
+        cout << "Element: " << *(node->data) << endl;
         node = node->next;
     }
 
     cout << "\n\nTesting Remove Method with non-existing element:\n";
-    list.Remove(&five);
+    list.Remove(five);  // Pass shared_ptr<int> instead of raw pointer
     cout << "Expected List after attempting to Remove '5': 1 -> 3\n";
 
     node = list.GetFirst();
     while (node != nullptr) {
-        cout << "Element: " << *node->data << endl;
+        cout << "Element: " << *(node->data) << endl;
         node = node->next;
     }
 
@@ -57,7 +61,7 @@ int main() {
 
     node = list.GetFirst();
     while (node != nullptr) {
-        cout << "Element: " << *node->data << endl;
+        cout << "Element: " << *(node->data) << endl;
         node = node->next;
     }
 
